@@ -3,14 +3,14 @@ import environ
 
 
 env = environ.Env(DEBUG=(bool, False))
-print(env)
+#print(env)
 
 # run this on mac
 # export READ_DOT_ENV_FILE=True
 
 READ_DOT_ENV_FILE = env.bool("READ_DOT_ENV_FILE", default=False)
 if READ_DOT_ENV_FILE:
-    print("** read now")
+    #print("** read now")
     environ.Env.read_env()
 
 
@@ -20,7 +20,7 @@ if READ_DOT_ENV_FILE:
 DEBUG = env("DEBUG")
 SECRET_KEY = env("SECRET_KEY")
 # SECRET_KEY='9l=jjp#g0-mbdfsntqww91&s9b^a!kj44ljl4f5h!+uoft$h6u'
-print("> SECRET_KEY: ", SECRET_KEY)
+#print("> SECRET_KEY: ", SECRET_KEY)
 print(DEBUG, SECRET_KEY)
 
 
@@ -82,13 +82,23 @@ WSGI_APPLICATION = "djcrm.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": BASE_DIR / "db.sqlite3",
+#     }
+# }
+
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": env("DB_NAME"),
+        "USER": env("DB_USER"),
+        "PASSWORD":env("DB_PASSWORD"),
+        "HOST":env("DB_HOST"),
+        "PORT":env("DB_PORT"),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -123,6 +133,8 @@ USE_TZ = True
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = "static_root"
+#print("> BASE_DIR: ",BASE_DIR)
+#print("> STATIC_ROOT: ",STATIC_ROOT)
 
 
 AUTH_USER_MODEL = "leads.User"
