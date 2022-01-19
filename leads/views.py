@@ -104,12 +104,15 @@ class LeadCreateView(OrganisorAndLoginRequiredMixin, generic.CreateView):
     def form_valid(self, form):
         lead = form.save(commit=False)
         lead.organisation = self.request.user.userprofile
+        print("* lead.email: ",lead.email)
         lead.save()
+        # Andy: assuming asoelist1551@yahoo.co.id is the organisor!
+        # thefore lead.email can be a dummy email on the form.
         send_mail(
             subject="A lead has been created",
             message="Go to the site to see the new lead",
-            from_email="test@test.com",
-            recipient_list=["test2@test.com"]
+            from_email="mystique@domain.com",
+            recipient_list=["asoelist1551@yahoo.co.id"]
         )
         return super(LeadCreateView, self).form_valid(form)
 

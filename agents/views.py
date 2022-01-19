@@ -34,10 +34,12 @@ class AgentCreateView(OrganisorAndLoginRequiredMixin, generic.CreateView):
             user=user,
             organisation=self.request.user.userprofile
         )
+        # Andy: user.email is the email of the agent!
+        # therefore enter the correct email that can be sent.
         send_mail(
             subject="You are invited to be an agent",
             message="You were added as an agent on DJCRM. Please come login to start working.",
-            from_email="admin@test.com",
+            from_email="mystique@domain.com",
             recipient_list=[user.email]
         )
         return super(AgentCreateView, self).form_valid(form)
